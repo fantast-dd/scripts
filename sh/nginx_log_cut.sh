@@ -7,7 +7,7 @@ logs_path="/m2odata/log/"
 cut_log_path="/m2odata/log/logs/"
 
 date=$(date -d "-1 days" +"%y%m%d")
-ldate=$(date -d "-8 days" +"%y%m%d")
+ldate=$(date -d "-8 days" +"%y%m%d")  # nginx 访问日志保留7天
 
 pid_path="/m2odata/server/nginx/logs/nginx.pid"
 
@@ -20,5 +20,3 @@ kill -USR1 `cat ${pid_path}`
 cd ${cut_log_path} && tar -zc -f access_${date}.tar.gz access_${date}.log --remove-files
 
 [ -e access_${ldate}.tar.gz ] && rm -f access_${ldate}.tar.gz
-
- 
