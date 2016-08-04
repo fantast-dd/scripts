@@ -14,7 +14,7 @@ import pymongo
 import tarfile
 import datetime
 
-logging.basicConfig(level=logging.DEBUG,format='%(asctime)s %(levelname)s %(message)s',datefmt='%a, %d %b %Y %H:%M:%S',filename='/var/log/nginx_access_analysis',filemode='w')
+logging.basicConfig(level=logging.DEBUG,format='%(asctime)s %(levelname)s %(message)s',datefmt='%a, %d %b %Y %H:%M:%S',filename='/var/log/nginx_access_analysis.log',filemode='a+')
 
 class Log_Analysis(object):
 
@@ -77,11 +77,11 @@ def elapse_time(func):
         logging.debug('%s elapse time: %.2f' % (func.__name__, (end_time - start_time)))
     return wrapper
 
-def interval():
+def interval():  # 日志文件的绝对路径
     today = datetime.date.today()
     difference = datetime.timedelta(days=-1)
     last_day = (today + difference).strftime("%Y%m%d")
-    path = '/m2odata/log/logs/%s/%s/' % (last_day[0:4],last_day[4:6])
+    path = '/m2odata/log/logs/'
     log = 'access_%s.log.tar.gz' % last_day
     return '%s' % (path + log)
 
