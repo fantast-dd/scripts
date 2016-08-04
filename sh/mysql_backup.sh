@@ -1,5 +1,5 @@
 #!/bin/bash 
-# backup single db 
+# backup every single db of mysql
 
 DATE=`date +%Y%m%d%H%M%S` 
 USER="backupuser"
