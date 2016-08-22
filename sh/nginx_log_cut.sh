@@ -19,4 +19,4 @@ kill -USR1 `cat ${pid_path}`
 
 cd ${cut_log_path} && tar -zc -f access_${date}.log.tar.gz access_${date}.log --remove-files
 
-[ -e access_${ldate}.tar.gz ] && rm -f access_${ldate}.tar.gz
+[ -e access_${ldate}.log.tar.gz ] && rm -f access_${ldate}.log.tar.gz
