@@ -57,7 +57,7 @@ chkconfig --list mysqld >/dev/null 2>&1 || chkconfig --add mysqld;chkconfig mysq
 # 安全设置
 ./bin/mysql_secure_installation<<EOF
 
-Y  # 设置root密码
+Y
 $passwd 
 $passwd
 Y  
