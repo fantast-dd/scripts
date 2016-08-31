@@ -4,7 +4,7 @@
 
 '''
     curl的直播流状态值写入本地CACHE文件 后续具体的直播频道流值从该文件获取 CACHE文件根据ctime一分钟更新一次
-    http://127.0.0.1:81/stat
+    http://127.0.0.1:81/stat 判断In bits/s值(视音频合计码流)。0则rtmp断流，非0则正常
 '''
 
 import os
