@@ -5,6 +5,7 @@
 
 '''
     sys.argv[1] -> (/tmp/mysql3306.sock,/tmp/mysql3307.sock ...) 因为有多个mysql slave运行在mysqld_multi上
+    if Slave_IO_Running=Yes && Slave_SQL_Running=Yes print 1 else print 0
 '''
 
 import MySQLdb
