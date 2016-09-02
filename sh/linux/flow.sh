@@ -6,7 +6,7 @@ clear
 
 echo
 
-printf "\t%-10s\t s\t s\n\n" "3Seconds" "Avgrbytes" "Avgtbytes"
+printf "\t%-10s\t %s\t %s\n\n" "1Seconds" "Avgrbytes" "Avgtbytes"
 
 tput sc
 count=1
@@ -16,7 +16,7 @@ do
         prerbyte=$(ifconfig eth0 | grep bytes | cut -d':' -f2 | cut -d ' ' -f1)
         pretbyte=$(ifconfig eth0 | grep bytes | cut -d':' -f3 | cut -d ' ' -f1)
 
-        sleep 3
+        sleep 1
 
         laterbyte=$(ifconfig eth0 | grep bytes | cut -d':' -f2 | cut -d ' ' -f1)
         latetbyte=$(ifconfig eth0 | grep bytes | cut -d':' -f3 | cut -d ' ' -f1)
@@ -24,7 +24,7 @@ do
         avgrbyte=$(echo "scale=3;$((laterbyte - prerbyte))/3/1024" | bc)
         avgtbyte=$(echo "scale=3;$((latetbyte - pretbyte))/3/1024" | bc)
 
-        printf "\t%-10s\t s KB\s\t s KB\s\t\n" "3s" "$avgrbyte" "$avgtbyte"
+        printf "\t%-10s\t %s KB\s\t %s KB\s\t\n" "3s" "$avgrbyte" "$avgtbyte"
 
         let count++
 
