@@ -58,7 +58,7 @@ chkconfig --list mysqld >/dev/null 2>&1 || chkconfig --add mysqld;chkconfig mysq
 ./bin/mysql_secure_installation<<EOF
 
 Y
-$passwd 
+$passwd
 $passwd
 Y  
 Y  
