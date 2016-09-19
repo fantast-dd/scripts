@@ -1,7 +1,7 @@
 ##shell安装服务一般步骤
 
-1.	判断服务端口是否存在，存在则退出安装<br />
-2.	安装，生成配置文件，修改iptables，开机启动等等函数
+1. 判断服务端口是否存在，存在则退出安装
+2. 安装，生成配置文件，修改iptables，开机启动等等函数
 3. 判断服务是否已安装（根据程序目录路径来判断），是调用第二步骤中的各个函数，否pass
 4. 启动服务
 
@@ -10,6 +10,7 @@
 	# date 06/9/18 pdd
 	
 	# procedure 1
+    # exec 1 >out.log 2>&1 记录日志
 	lsof -i:port && { echo -e "端口已被占用！\n"; exit 1; }
 	
 	# procedure 2
@@ -30,8 +31,7 @@
 	}
 	
 	function self_boot () {
-		# 1, /etc/rc.local
-		# 2, chkconfig 
+        # chkconfig or /etc/rc.local 
 	}
 	
 	function ... () {
