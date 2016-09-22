@@ -81,10 +81,12 @@ if [ ! -d /m2odata/server/mysql ];then
     install
     init_db  # 数据库初始化的时候要读取my.cnf里面的参数
     self_boot
-    add_iptables
     /etc/init.d/mysqld start
     security
     echo -e "MYSQL安装完成！\n"
 else
     echo -e "MYSQL已安装！\n"
+    /etc/init.d/mysqld start
 fi
+
+add_iptables

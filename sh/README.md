@@ -3,7 +3,7 @@
 1. 判断服务端口是否存在，存在则退出安装
 2. 安装，生成配置文件，修改iptables，开机启动等等函数
 3. 判断服务是否已安装（根据程序目录路径来判断），是调用第二步骤中的各个函数，否pass
-4. 启动服务
+4. 调用iptables等非安装函数，启动服务
 
 ### 伪代码
 	#!/bin/bash
@@ -42,12 +42,11 @@
 	if [ ! -f 服务安装路径 ];then
 		install
 		config
-		add_iptables
-		self_boot
-		...
 		echo -e "服务安装完成！\n"
 	else
 		echo -e "服务已安装！\n"
 		
 	# procedure 4
+    add_iptables
+    self_boot
 	$EXEC
