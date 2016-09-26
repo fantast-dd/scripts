@@ -24,5 +24,6 @@ EOF
 mount -a
 }
 
+[ -d /storage ] || mkdir /storage
 [ -b ${DISK}1 ] || storage_fdisk
 grep -q ${DISK}1 /etc/fstab || storage_mount
