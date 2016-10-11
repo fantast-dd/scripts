@@ -1,14 +1,20 @@
 #!/bin/bash
 # 二进制安装MYSQL
 
-lsof -i:3306 >/dev/null && { echo "3306端口已被占用，请检查是否被其它进程占用，或MYSQL已经安装完成"; exit 1; }
+# linux shell color support.
+RED="\\033[31m"
+#GREEN="\\033[32m"
+YELLOW="\\033[33m"
+BLACK="\\033[0m"
 
-basedir=/m2odata/server/mysql
+lsof -i:3306 >/dev/null && { echo -e "${RED}3306端口已被占用，请检查是否被其它进程占用，或MYSQL已经安装完成${BLACK}"; exit 1; }
+
+basedir=/storage/server/mysql
 datadir=/storage/db
 socket=/tmp/mysql.sock
 user=mysql
 password="test"
-[ -n "$password" ] || { echo "Error: 请在配置文件中输入正确的mysql password"; exit 1; }
+[ -n "$password" ] || { echo -e "${RED}请在配置文件中输入正确的mysql password\t\t[error]${BLACK}"; exit 1; }
 
 # 安装所需包，添加用户名
 grep -q $user /etc/passwd || useradd -M -s /sbin/nologin $user
@@ -35,7 +41,7 @@ EOF
 # 安装
 function install () {
     tar -xz -f mysql-5.6.31-linux-glibc2.5-x86_64.tar.gz
-    \cp -rf mysql-5.6.31-linux-glibc2.5-x86_64 /m2odata/server/mysql
+    cp -rf mysql-5.6.31-linux-glibc2.5-x86_64 /storage/server/mysql
     chown -R $user:$user $basedir
 }
 
@@ -76,16 +82,16 @@ Y
 EOF
 }
 
-if [ ! -d /m2odata/server/mysql ];then
+if [ ! -d /storage/server/mysql ];then
     config
     install
     init_db  # 数据库初始化的时候要读取my.cnf里面的参数
     self_boot
     /etc/init.d/mysqld start
     security
-    echo -e "MYSQL安装完成！\n"
+    echo -e "${YELLOW}MYSQL安装完成！${BLACK}\n"
 else
-    echo -e "MYSQL已安装！\n"
+    echo -e "${YELLOW}MYSQL已安装！${BLACK}\n"
     /etc/init.d/mysqld start
 fi
 
