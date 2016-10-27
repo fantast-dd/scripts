@@ -89,12 +89,12 @@ function add_ntpdate () {
 
 # 新建相关目录，如果目录存在则chmod，不存在则新建目录并chmod
 function add_dirs() {
-    [ -d /m2odata ] || mkdir /m2odata && chmod 755 /m2odata
-    [ -d /m2odata/server ] || mkdir /m2odata/server && chmod 755 /m2odata/server
-    [ -d /m2odata/log ] || mkdir /m2odata/log && chmod 777 /m2odata/log
-    [ -d /m2odata/tmp ] || mkdir /m2odata/tmp && chmod 777 /m2odata/tmp
-    [ -d /m2odata/www ] || mkdir /m2odata/www && chmod 755 /m2odata/www
-    [ -d /m2odata/sh ] || mkdir /m2odata/sh && chmod 755 /m2odata/sh
+    [ -d /storage ] || mkdir /storage && chmod 755 /storage
+    [ -d /storage/server ] || mkdir /storage/server && chmod 755 /storage/server
+    [ -d /storage/log ] || mkdir /storage/log && chmod 777 /storage/log
+    [ -d /storage/tmp ] || mkdir /storage/tmp && chmod 777 /storage/tmp
+    [ -d /storage/www ] || mkdir /storage/www && chmod 755 /storage/www
+    [ -d /storage/sh ] || mkdir /storage/sh && chmod 755 /storage/sh
 }
 
 # 执行

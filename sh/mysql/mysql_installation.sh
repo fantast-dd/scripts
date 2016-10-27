@@ -7,7 +7,7 @@ RED="\\033[31m"
 YELLOW="\\033[33m"
 BLACK="\\033[0m"
 
-lsof -i:3306 >/dev/null && { echo -e "${RED}3306端口已被占用，请检查是否被其它进程占用，或MYSQL已经安装完成${BLACK}"; exit 1; }
+netstat -tupln | grep -w -q 3306 && { echo -e "${RED}3306端口已被占用，请检查是否被其它进程占用，或MYSQL已经安装完成${BLACK}"; exit 1; }
 
 basedir=/storage/server/mysql
 datadir=/storage/db

@@ -17,7 +17,7 @@
 	
 	# procedure 1
     # exec 1 >out.log 2>&1 记录日志
-	lsof -i:port && { echo -e "${RED}端口已被占用\t\t[退出安装]${BLACK}\n"; exit 1; }
+	netstat -tupln | grep -q -w $port && { echo -e "${RED}端口已被占用\t\t[退出安装]${BLACK}\n"; exit 1; }
 	
 	# procedure 2
 	function install () {
@@ -29,9 +29,10 @@
 	}
 	
 	function add_iptables () {
-		grep -q -w port /etc/sysconfig/iptables
+        local iptables_conf = /etc/sysconfig/iptables
+		grep -q -w $port $iptables_conf
 		if [ ! $? = 0 ];then
-			sed -i '/--dport 22/a -A INPUT -m state --state NEW -m tcp -p tcp --dport $port -j ACCEPT' /etc/sysconfig/iptables
+			sed -i '/--dport 22/a -A INPUT -m state --state NEW -m tcp -p tcp --dport $port -j ACCEPT' $iptables_conf
 			/etc/init.d/iptables reload
 		fi
 	}
