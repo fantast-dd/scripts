@@ -5,18 +5,14 @@
 
 logs_path="/storage/log/"
 cut_log_path="/storage/log/logs/"
+pid_path="/storage/server/nginx/logs/nginx.pid"
 
 date=$(date -d "-1 days" +"%y%m%d")
 ldate=$(date -d "-8 days" +"%y%m%d")  # nginx 访问日志保留7天
 
-pid_path="/storage/server/nginx/logs/nginx.pid"
-
-[ -d ${cut_log_path} ] || mkdir -p /storage/log/logs
-
-mv ${logs_path}access.log ${cut_log_path}access_${date}.log
-
+[ -d "$cut_log_path" ] || mkdir -p "$cut_log_path"
+mv "${logs_path}access.log" "${cut_log_path}access_${date}.log"
 kill -USR1 `cat ${pid_path}`
 
-cd ${cut_log_path} && tar -zc -f access_${date}.log.tar.gz access_${date}.log --remove-files
-
-[ -e access_${ldate}.log.tar.gz ] && rm -f access_${ldate}.log.tar.gz
+cd "$cut_log_path"
+[ -e "access_${ldate}.log" ] && rm -f "access_${ldate}.log"
