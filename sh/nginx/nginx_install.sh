@@ -12,7 +12,7 @@ BLACK="\\033[0m"
 
 port=80
 
-netstat -tpln | grep -q -w "$port" && { echo -e "${RED}${port} has been occupied${BLACK}\n"; exit 1; }
+netstat -tpln | grep -q -w $port && { echo -e "${RED}${port} has been occupied${BLACK}\n"; exit 1; }
 
 basedir="/usr/local/nginx"
 user="www"
@@ -35,9 +35,9 @@ function nginx_install () {
     cd /usr/local/src
     tar -zx -f nginx-1.8.1.tar.gz
     cd nginx-1.8.1
-    ./configure --prefix="$basedir" \
-    --user="$user" \
-    --group="$group" \
+    ./configure --prefix=$basedir \
+    --user=$user \
+    --group=$group \
     --with-http_ssl_module \
     --with-http_stub_status_module
     [ $? != 0 ] && { echo -e "${RED}nginx configure fail !!!${BLACK}\n"; exit 1; }
@@ -50,7 +50,7 @@ function nginx_install () {
 
 function add_iptables () {
 	local iptables_conf=/etc/sysconfig/iptables
-    grep -q -w "$port" "$iptables_conf"
+    grep -q -w $port $iptables_conf
     if [ ! $? = 0 ];then
         sed -i "/-i lo/a -A INPUT -m state --state NEW -m tcp -p tcp --dport $port -j ACCEPT" "$iptables_conf"
         /etc/init.d/iptables reload

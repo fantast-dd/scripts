@@ -40,8 +40,8 @@ function php_install () {
     echo -e "${GREEN}uncompress php file${BLACK}\n"
     tar -jx -f php-5.6.9.tar.bz2
     cd php-5.6.9
-    ./configure --prefix="$basedir" \
-    --with-config-file-path="$confdir" \
+    ./configure --prefix=$basedir \
+    --with-config-file-path=$confdir \
     --with-mysql=mysqlnd \
     --with-mysqli=mysqlnd \
     --with-pdo-mysql=mysqlnd \
@@ -68,7 +68,7 @@ function php_install () {
     --disable-ipv6
     [ $? != 0 ] && { echo -e "${RED}php configure fail !!${BLACK}\n"; exit 1; }
     local CPU_NUM=$(grep -c processor /proc/cpuinfo)
-    [ $CPU_NUM -gt 1 ] && make ZEND_EXTRA_LIBS='-liconv' -j$CPU_NUM || make ZEND_EXTRA_LIBS='-liconv'
+    [ "$CPU_NUM" -gt 1 ] && make ZEND_EXTRA_LIBS='-liconv' -j$CPU_NUM || make ZEND_EXTRA_LIBS='-liconv'
     make install
     cp php.ini-production ${confdir}/php.ini
     ln -sf ${basedir}/bin/php /usr/local/bin/php
