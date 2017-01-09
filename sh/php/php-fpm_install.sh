@@ -22,7 +22,7 @@ function download () {
     if [ -f /usr/local/src/php-5.6.9.tar.bz2 ];then
         echo -e "${YELLOW}php file was already downloaded${BLACK}\n"
     else
-        wget -c http://cn2.php.net/distributions/php-5.6.9.tar.bz2 -P /usr/local/src
+        wget -c "http://cn2.php.net/distributions/php-5.6.9.tar.bz2" -P /usr/local/src
         [ $? != 0 ] && { echo -e "${RED}php download fail !!!${BLACK}\n"; exit 1; }
     fi
 }
@@ -56,6 +56,7 @@ function php_install () {
     --with-png-dir \
     --with-freetype-dir \
     --with-mhash \
+    --with-gettext \
     --enable-mbstring \
     --enable-pcntl \
     --enable-sockets \
@@ -75,7 +76,11 @@ function php_install () {
     install -m755 sapi/fpm/init.d.php-fpm.in /etc/init.d/php-fpm
 }
 
-function configure () {
+function php_configure () {
+    # adjust init.d/php-fpm
+    sed -i -r "s/^(php_fpm_BIN).*/\1=${basedir}/sbin/php-fpm/g" /etc/init.d/php-fpm
+    sed -i -r "s/^(php_fpm_CONF).*/\1=${basedir}/etc/php-fpm.conf/g" /etc/init.d/php-fpm
+    sed -i -r "s/^(php_fpm_PID).*/\1=${basedir}/var/run/php-fpm.pid/g" /etc/init.d/php-fpm
     # adjust php.ini
     sed -i -r 's/(post_max_size).*/\1 = 64M/g' ${confdir}/php.ini
     sed -i -r 's/(upload_max_filesize).*/\1 = 64M/g' ${confdir}/php.ini
@@ -107,7 +112,7 @@ function self_boot () {
 if [ ! -f ${basedir}/sbin/php-fpm ];then
     download
     php_install
-    configure
+    php_configure
     echo -e "${GREEN}php install success${BLACK}\n"
 else
     echo -e "${YELLOW}php was already installed${BLACK}\n"

@@ -11,12 +11,11 @@ YELLOW="\\033[33m" # Warning
 BLACK="\\033[0m"
 
 port=80
-
-netstat -tpln | grep -q -w $port && { echo -e "${RED}${port} has been occupied${BLACK}\n"; exit 1; }
-
 basedir="/usr/local/nginx"
 user="www"
 group="www"
+
+netstat -tpln | grep -q -w $port && { echo -e "${RED}${port} has been occupied${BLACK}\n"; exit 1; }
 
 function download () {
     if [ -f /usr/local/src/nginx-1.8.1.tar.gz ];then
@@ -52,7 +51,7 @@ function add_iptables () {
 	local iptables_conf=/etc/sysconfig/iptables
     grep -q -w $port $iptables_conf
     if [ ! $? = 0 ];then
-        sed -i "/-i lo/a -A INPUT -m state --state NEW -m tcp -p tcp --dport $port -j ACCEPT" "$iptables_conf"
+        sed -i "/-i lo/a -A INPUT -m state --state NEW -m tcp -p tcp --dport $port -j ACCEPT" $iptables_conf
         /etc/init.d/iptables reload
     fi
 }
