@@ -4,20 +4,20 @@
 # linux shell color support.
 RED="\\033[31m"
 GREEN="\\033[32m"
-#YELLOW="\\033[33m"
+YELLOW="\\033[33m"
 BLACK="\\033[0m"
 
 # 安装必要的包
 yum -y install epel-release wget ntpdate gcc
 
 # 更新所有包
-yum update -y
+yum -y update
 
 # 修改主机名
 function edit_hostname () {
     # 填写主机名
-    local name=""
-    [ -n "$name" ] || { echo -e "${RED}请填写正确的主机名\t\t[warning]${BLACK}"; return 2; }
+    local name="test"
+    [ -n "$name" ] || { echo -e "${RED}请填写正确的主机名\t\t[Error]${BLACK}"; exit 1; }
     current_name=$(hostname)
     [ "$name" = "$current_name" ] || sed -r -i "s/^(HOSTNAME=).*/\1$name/" /etc/sysconfig/network
 }
@@ -27,7 +27,7 @@ function edit_sysctl () {
     cp /etc/sysctl.conf /etc/sysctl.conf.bak
 cat >>/etc/sysctl.conf<<EOF
 
-# hogesoft add
+# pdd add
 # IPv6 disabled
 # net.ipv6.conf.all.disable_ipv6 = 1
 # net.ipv6.conf.default.disable_ipv6 = 1
@@ -79,12 +79,12 @@ function edit_ulimit () {
 # 关闭selinux
 function edit_selinux () {
     status=$(getenforce)
-    [ "$status" = "Disabled" ] || sed -r -i 's/^(SELINUX=).*/\1disabled/' /etc/sysconfig/selinux
+    [ "$status" = "Disabled" ] || sed -r -i 's/^(SELINUX=).*/\1disabled/' /etc/selinux/config
 }
 
 # ntpdate加入计划任务
 function add_ntpdate () {
-    grep -q "ntpdate" /var/spool/cron/root || echo "1 * * * * /usr/sbin/ntpdate cn.pool.ntp.org" >>/var/spool/cron/root
+    echo "1 * * * * /usr/sbin/ntpdate cn.pool.ntp.org" >>/var/spool/cron/root
 }
 
 # 新建相关目录，如果目录存在则chmod，不存在则新建目录并chmod
@@ -102,7 +102,7 @@ edit_hostname
 grep -q "# hogesoft add" /etc/sysctl.conf || { edit_sysctl; sysctl -p; }
 edit_ulimit
 edit_selinux
-add_ntpdate
+grep -q "ntpdate" /var/spool/cron/root || add_ntpdate
 add_dirs
 
 echo -e "${GREEN}环境初始化完成\t\t[success]${BLACK}\n"

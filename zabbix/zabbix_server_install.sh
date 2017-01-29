@@ -1,5 +1,5 @@
 #!/bin/bash
-# 2016/01/04 pdd
+# 2017/01/04 pdd
 # Zabbix Version 3.2.3
 
 clear
