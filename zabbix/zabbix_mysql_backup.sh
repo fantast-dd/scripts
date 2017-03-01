@@ -25,7 +25,7 @@ MySQLDUMP () {
     cd $DATE
     
     local TABLE_NAME_ALL=$($MYSQL_BIN_PATH -u${MySQL_USER} -p${MySQL_PASSWORD} -h${MySQL_HOST} $MySQL_DATABASE_NAME -e \
-    "show tables" | egrep -v "(Tables_in_zabbix|history*|trends*|acknowledges|alerts|auditlog|events|service_alarms)")
+    "show tables" | egrep -v "(history*|trends*|acknowledges|alerts|auditlog|events|service_alarms)")
     for TABLE_NAME in $TABLE_NAME_ALL
     do
         $MYSQL_DUMP_BIN_PATH --opt -u${MySQL_USER} -p${MySQL_PASSWORD} -P${MySQL_PORT} -h${MySQL_HOST} \
@@ -33,8 +33,7 @@ MySQLDUMP () {
         sleep 0.01
     done
 
-    local STATUS_LOG=${MySQL_DUMP_PATH}/logs/ZabbixMysqlDump.log
-    [ "$?" == 0 ] && echo "${DATE}: Backup zabbix succeed"  >> $STATUS_LOG || echo "${DATE}: Backup zabbix not succeed" >> $STATUS_LOG
+    [ "$?" == 0 ] && echo "${DATE}: Backup zabbix succeed"  >> ${MySQL_DUMP_PATH}/logs/ZabbixMysqlDump.log || echo "${DATE}: Backup zabbix not succeed" >> ${MySQL_DUMP_PATH}/logs/ZabbixMysqlDump.log
     
     cd ${MySQL_DUMP_PATH}
     [ "$?" == 0 ] && rm -rf $(date +%Y-%m-%d --date='5 days ago')
